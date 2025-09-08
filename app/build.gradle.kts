@@ -10,7 +10,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "br.com.fiap.ecoweather"
+        applicationId = "br.com.fiap.helpweather"
         minSdk = 27
         targetSdk = 36
         versionCode = 1
@@ -42,12 +42,17 @@ android {
 
 dependencies {
 
+    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("androidx.compose.material:material-icons-extended:1.6.8")
+    implementation("androidx.compose.material3:material3:1.2.1")
+    implementation("androidx.compose.material:material-icons-extended:1.6.8")
     implementation("org.osmdroid:osmdroid-android:6.1.18")
     implementation("androidx.compose.material:material-icons-extended:1.6.8")
     implementation(libs.androidx.runtime.livedata)
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation(libs.androidx.media3.common.ktx)
     implementation(libs.androidx.foundation)
+    implementation(libs.androidx.runtime.saveable)
     kapt("com.google.dagger:hilt-android:2.47")
     kapt("androidx.room:room-compiler:2.6.0")
     implementation("com.google.dagger:hilt-android:2.47")

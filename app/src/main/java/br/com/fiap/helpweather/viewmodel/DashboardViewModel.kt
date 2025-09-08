@@ -8,14 +8,15 @@ import kotlinx.coroutines.launch
 
 class DashboardViewModel(private val repository: WeatherRepository) : ViewModel() {
 
-    private val _weather = MutableLiveData<WeatherResponse>()
-    val weather: LiveData<WeatherResponse> = _weather
+    private val _weather = MutableLiveData<WeatherResponse?>(null)
+    val weather: LiveData<WeatherResponse?> = _weather
 
-    private val _airQuality = MutableLiveData<AirQualityResponse>()
-    val airQuality: LiveData<AirQualityResponse> = _airQuality
+    private val _airQuality = MutableLiveData<AirQualityResponse?>(null)
+    val airQuality: LiveData<AirQualityResponse?> = _airQuality
 
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String> = _error
+    private val _error = MutableLiveData<String?>(null)
+    val error: LiveData<String?> = _error
+
 
     fun loadDashboardData(city: String, apiKey: String) {
         viewModelScope.launch {
