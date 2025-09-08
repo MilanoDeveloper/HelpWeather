@@ -90,7 +90,14 @@ class MainActivity : ComponentActivity() {
                                 vm.loadDashboardData(city, OPENWEATHER_API_KEY)
                             }
 
-                            DashboardScreen(viewModel = vm)
+                            DashboardScreen(
+                                viewModel = vm,
+                                defaultCity = city,
+                                apiKey = OPENWEATHER_API_KEY,
+                                onCityChange = { newCity: String ->
+                                    city = newCity
+                                }
+                            )
                         }
                         composable(NavRoute.Forecast.route) {
                             val vm: ForecastViewModel = viewModel(

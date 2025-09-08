@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.androidx.foundation)
     kapt("com.google.dagger:hilt-android:2.47")
     kapt("androidx.room:room-compiler:2.6.0")
     implementation("com.google.dagger:hilt-android:2.47")
