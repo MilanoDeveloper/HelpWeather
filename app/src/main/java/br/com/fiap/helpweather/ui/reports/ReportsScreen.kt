@@ -1,4 +1,3 @@
-// br.com.fiap.ecoweather.ui.reports.ReportsScreen
 package br.com.fiap.helpweather.ui.reports
 
 import androidx.compose.foundation.layout.*
@@ -31,7 +30,6 @@ fun ReportsScreen(
         } else {
             ElevatedCard {
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Ações eco concluídas: ${report!!.completedActions}")
                     Text("Média de temperatura prevista: ${report!!.forecastAvgTemp ?: "—"} °C")
                 }
             }

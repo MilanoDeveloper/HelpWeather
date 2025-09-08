@@ -12,7 +12,7 @@ private val DarkColors = darkColorScheme()
 @Composable
 fun HelpWeatherTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true, // Android 12+
+    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme =

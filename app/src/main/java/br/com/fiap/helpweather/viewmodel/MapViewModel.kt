@@ -1,4 +1,3 @@
-// br.com.fiap.ecoweather.viewmodel.MapViewModel
 package br.com.fiap.helpweather.viewmodel
 
 import androidx.lifecycle.*

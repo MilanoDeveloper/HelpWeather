@@ -1,6 +1,5 @@
 package br.com.fiap.helpweather.ui.map
 
-import android.os.Bundle
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*

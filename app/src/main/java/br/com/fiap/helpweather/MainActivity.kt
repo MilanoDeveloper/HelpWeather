@@ -1,4 +1,3 @@
-// br/com/fiap/helpweather/MainActivity.kt
 package br.com.fiap.helpweather
 
 import android.os.Bundle

@@ -18,7 +18,9 @@ import br.com.fiap.helpweather.util.aqiDescription
 import br.com.fiap.helpweather.ui.components.AqiPill
 import br.com.fiap.helpweather.ui.components.SectionCard
 import coil.compose.AsyncImage
-
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import br.com.fiap.helpweather.R
 
 @Composable
 fun DashboardScreen(
@@ -39,9 +41,14 @@ fun DashboardScreen(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("HelpWeather", style = MaterialTheme.typography.headlineSmall)
+        Image(
+            painter = painterResource(id = R.drawable.logo_helpweather),
+            contentDescription = "Logo HelpWeather",
+            modifier = Modifier
+                .size(120.dp)
+                .align(Alignment.CenterHorizontally)
+        )
 
-        // Campo de cidade
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -76,7 +83,6 @@ fun DashboardScreen(
             }) { Text("Buscar") }
         }
 
-        // Card clima
         SectionCard(title = "Clima agora", icon = {
             val icon = weather?.weather?.firstOrNull()?.icon
             if (!icon.isNullOrBlank()) {
@@ -98,7 +104,6 @@ fun DashboardScreen(
             }
         }
 
-        // Card AQI
         SectionCard(title = "Qualidade do ar") {
             val aqiValue = airQuality?.list?.firstOrNull()?.main?.aqi
             if (aqiValue == null) {
