@@ -27,7 +27,7 @@ fun DashboardScreen(viewModel: DashboardViewModel = viewModel()) {
 
         weather?.let {
             Text("Cidade: ${it.name}")
-            Text("Temperatura: ${it.main.temp}°C")
+            Text("Temperatura: ${"%.1f".format(weather!!.main.temp)}°C")
             Text("Clima: ${it.weather.firstOrNull()?.description ?: "N/A"}")
         }
 

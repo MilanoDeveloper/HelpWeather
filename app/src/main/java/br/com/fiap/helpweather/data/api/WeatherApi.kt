@@ -10,13 +10,17 @@ interface WeatherApi {
     @GET("weather")
     suspend fun getCurrentWeather(
         @Query("q") city: String,
-        @Query("appid") apiKey: String
+        @Query("appid") apiKey: String,
+        @Query("units") units: String = "metric",
+        @Query("lang") lang: String = "pt_br"
     ): WeatherResponse
 
     @GET("forecast")
     suspend fun getForecast(
         @Query("q") city: String,
-        @Query("appid") apiKey: String
+        @Query("appid") apiKey: String,
+        @Query("units") units: String = "metric",
+        @Query("lang") lang: String = "pt_br"
     ): ForecastResponse
 
     @GET("air_pollution")
