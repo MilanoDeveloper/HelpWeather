@@ -1,21 +1,18 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# Retrofit/Gson (avisos comuns)
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+-keepattributes Signature,*Annotation*
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Mantenha interfaces Retrofit (anotações de HTTP)
+-keep class * {
+    @retrofit2.http.* <methods>;
+}
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Modelos do Gson (campos)
+-keep class br.com.fiap.helpweather.data.model.** { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Osmdroid
+-dontwarn org.osmdroid.**
+
+# Coil
+-dontwarn coil.**
