@@ -42,6 +42,7 @@ android {
 
 dependencies {
 
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
     implementation("androidx.compose.material:material-icons-extended:1.6.8")
     implementation(libs.androidx.runtime.livedata)
     implementation("androidx.navigation:navigation-compose:2.7.7")

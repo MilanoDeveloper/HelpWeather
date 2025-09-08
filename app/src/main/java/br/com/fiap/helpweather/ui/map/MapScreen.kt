@@ -1,20 +1,21 @@
 package br.com.fiap.helpweather.ui.map
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.compose.runtime.*
-import androidx.compose.ui.viewinterop.AndroidView
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.*
-import androidx.compose.material3.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.fiap.helpweather.viewmodel.MapViewModel
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
+import androidx.compose.ui.viewinterop.AndroidView
 
-@SuppressLint("PotentialBehaviorOverride")
 @Composable
 fun MapScreen(
     viewModel: MapViewModel = viewModel(),
@@ -28,32 +29,63 @@ fun MapScreen(
     LaunchedEffect(city) { viewModel.load(city, apiKey) }
 
     Column(Modifier.fillMaxSize()) {
-        Text("Mapa Ambiental – $city", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(16.dp))
-        if (!error.isNullOrBlank()) Text(error!!, color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(horizontal = 16.dp))
-        Box(Modifier.fillMaxSize()) {
-            val lat = weather?.coord?.lat ?: -23.55
-            val lon = weather?.coord?.lon ?: -46.63
-            val aqi = air?.list?.firstOrNull()?.main?.aqi
+        Text(
+            "Mapa (OpenStreetMap) – $city",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(16.dp)
+        )
+
+        if (!error.isNullOrBlank()) {
+            Text(
+                error!!,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+        }
+
+        val lat = weather?.coord?.lat
+        val lon = weather?.coord?.lon
+        val aqi = air?.list?.firstOrNull()?.main?.aqi
+
+        if (lat == null || lon == null) {
+            Box(Modifier.fillMaxSize(), contentAlignment = androidx.compose.ui.Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        } else {
+            val context = LocalContext.current
+            val mapView = remember {
+                MapView(context).apply {
+                    id = android.R.id.content
+                    setTileSource(TileSourceFactory.MAPNIK)
+                    controller.setZoom(11.0)
+                }
+            }
+
+            DisposableEffect(Unit) {
+                mapView.onResume()
+                onDispose {
+                    mapView.onPause()
+                    mapView.onDetach()
+                }
+            }
+
+            LaunchedEffect(lat, lon, aqi) {
+                val point = GeoPoint(lat, lon)
+                mapView.controller.setCenter(point)
+                mapView.overlays.clear()
+                val marker = Marker(mapView).apply {
+                    position = point
+                    title = city
+                    snippet = "AQI: ${aqi ?: "—"}"
+                    setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                }
+                mapView.overlays.add(marker)
+                mapView.invalidate()
+            }
 
             AndroidView(
-                modifier = Modifier.fillMaxSize(),
-                factory = { ctx ->
-                    MapView(ctx).apply {
-                        onCreate(Bundle())
-                        getMapAsync { gMap ->
-                            val pos = LatLng(lat, lon)
-                            gMap.uiSettings.isZoomControlsEnabled = true
-                            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 10f))
-                            gMap.addMarker(
-                                MarkerOptions()
-                                    .position(pos)
-                                    .title("$city")
-                                    .snippet("AQI: ${aqi ?: "—"}")
-                            )
-                        }
-                        onResume()
-                    }
-                }
+                factory = { mapView },
+                modifier = Modifier.fillMaxSize()
             )
         }
     }

@@ -1,6 +1,7 @@
 package br.com.fiap.helpweather
 
 import android.os.Bundle
+import org.osmdroid.config.Configuration
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
@@ -31,9 +32,9 @@ private const val OPENWEATHER_API_KEY = "4bfb39db23c3fa1d24dedeaa5b78f83d"
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Configuration.getInstance().userAgentValue = packageName
 
         setContent {
-            // Retrofit + Repository criados uma vez
             val retrofit = remember {
                 Retrofit.Builder()
                     .baseUrl("https://api.openweathermap.org/data/2.5/")
@@ -85,6 +86,10 @@ class MainActivity : ComponentActivity() {
                             val vm: DashboardViewModel = viewModel(
                                 factory = DashboardViewModel.Factory(weatherRepository)
                             )
+                            LaunchedEffect(city) {
+                                vm.loadDashboardData(city, OPENWEATHER_API_KEY)
+                            }
+
                             DashboardScreen(viewModel = vm)
                         }
                         composable(NavRoute.Forecast.route) {
